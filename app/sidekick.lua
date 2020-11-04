@@ -1,3 +1,5 @@
+local input = require("input")
+
 local sidekick = {}
 
 local coroutines = {}
@@ -23,9 +25,13 @@ function stopCoroutine(cox)
    end
 end
 
+
+
+
+
 function sidekick.updateCoroutines()
    local co
-   for i = coCount + 1, 1, -1 do
+   for i = coCount, 1, -1 do
       co = coroutines[i]
       coroutine.resume(co)
       if coroutine.status(co) == "dead" then
@@ -33,6 +39,10 @@ function sidekick.updateCoroutines()
          coCount = coCount - 1
       end
    end
+end
+
+function sidekick.updateInput()
+   input.update()
 end
 
 return sidekick

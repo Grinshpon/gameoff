@@ -7,13 +7,17 @@ local record Map
   end
 
   --cartesian to grid coords and vice versa
-  --cart2grid: function(Level,number,number): (number,number)
+  cart2grid: function(Level,number,number): (number,number)
   grid2cart: function(Level,number,number): (number,number)
 end
 
 local Level = Map.Level
 
 local map: Map = {}
+
+function map.cart2grid(l: Level,x: number,y:number): (number,number)
+  return 0,0
+end
 
 function map.grid2cart(l: Level,x: number,y:number): (number,number)
   --local theta = math.pi*(y+1)/(4*(x+1))

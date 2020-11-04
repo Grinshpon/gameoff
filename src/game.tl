@@ -48,7 +48,7 @@ end
 local example: map.Level = {width = 60, size = 5}
 
 function game:drawLevel()
-  --local mouseX, mouseY = love.graphics.inverseTransformPoint(love.mouse.getPosition())
+  local mouseX, mouseY = love.graphics.inverseTransformPoint(love.mouse.getPosition())
   --love.graphics.circle("fill",0,0,example.width) -- instead of filled circle maybe a sprite in the middle?
   love.graphics.circle("line",0,0,example.width)
   local totalWidth = example.width*(example.size+1)
@@ -75,6 +75,8 @@ function game:drawLevel()
   love.graphics.setColor(1,0,0)
   love.graphics.circle("fill",x,y,5)
   love.graphics.setColor(1,1,1)
+  x,y = map.grid2cart(example,map.cart2grid(example,mouseX,mouseY))
+  love.graphics.circle("fill",x,y,5)
 end
 
 function game:initCursor()
@@ -89,33 +91,45 @@ function game:initCamera()
   }
 end
 
+local camActions: input.InputActions = {
+  actions = {
+    zoomIn   = input.keyAction("="),
+    zoomOut  = input.keyAction("-"),
+    panLeft  = input.keyAction("left"),
+    panRight = input.keyAction("right"),
+    panUp    = input.keyAction("up"),
+    panDown  = input.keyAction("down"),
+  },
+  enabled = false,
+}
+
+
 function game:initInputCallbacks()
-  input.actions.zoomIn.pressed = function()
+  camActions.actions.zoomIn.pressed = function()
     if self.camera.scale < 3 then
       self.camera.scale = self.camera.scale + 1
     end
   end
-  input.actions.zoomOut.pressed = function()
+  camActions.actions.zoomOut.pressed = function()
     if self.camera.scale > 1 then
       self.camera.scale = self.camera.scale - 1
     end
   end
-  input.actions.panLeft.down = function()
+  camActions.actions.panLeft.down = function()
     self.camera.x = self.camera.x + config.panSpeed*love.timer.getDelta()
   end
-  input.actions.panRight.down = function()
+  camActions.actions.panRight.down = function()
     self.camera.x = self.camera.x - config.panSpeed*love.timer.getDelta()
   end
-  input.actions.panDown.down = function()
+  camActions.actions.panDown.down = function()
     self.camera.y = self.camera.y - config.panSpeed*love.timer.getDelta()
   end
-  input.actions.panUp.down = function()
+  camActions.actions.panUp.down = function()
     self.camera.y = self.camera.y + config.panSpeed*love.timer.getDelta()
   end
-end
 
-function updateInput()
-  input:update()
+  input.addInputActions(camActions)
+  input.enable(camActions)
 end
 
 return game

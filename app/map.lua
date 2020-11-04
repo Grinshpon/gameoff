@@ -15,6 +15,10 @@ local Level = Map.Level
 
 local map = {}
 
+function map.cart2grid(l, x, y)
+   return 0, 0
+end
+
 function map.grid2cart(l, x, y)
 
    local theta = math.pi / math.pow(2, x)

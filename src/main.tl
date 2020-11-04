@@ -1,5 +1,6 @@
 require "setup"
 require "camera"
+local sidekick = require "sidekick"
 local game = require "game"
 
 function love.load()
@@ -10,7 +11,8 @@ function love.load()
 end
 
 function love.update(dt: number)
-  updateInput()
+  sidekick.updateInput()
+  sidekick.updateCoroutines()
 end
 
 function love.draw()
