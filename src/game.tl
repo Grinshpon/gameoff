@@ -68,6 +68,13 @@ function game:drawLevel()
       --love.graphics.setColor(1,1,1)
     end
   end
+  --test
+  local x,y = map.grid2cart(example,1,0)
+  love.graphics.circle("fill",x,y,5)
+  x,y = map.grid2cart(example,5,-1)
+  love.graphics.setColor(1,0,0)
+  love.graphics.circle("fill",x,y,5)
+  love.graphics.setColor(1,1,1)
 end
 
 function game:initCursor()
