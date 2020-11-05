@@ -2,7 +2,7 @@ function noop() end
 
 
 
-local Input = {InputActions = {}, KeyAction = {}, }
+local Input = {KeyAction = {}, InputActions = {}, }
 
 
 

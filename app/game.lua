@@ -62,22 +62,19 @@ function game:drawLevel()
          local cos = math.cos(theta)
          local sin = math.sin(theta)
          love.graphics.line(r * cos, r * sin, totalWidth * cos, totalWidth * sin)
-
-
-
-
       end
    end
 
-
-
-
-
-
-
    local rx, ry = map.cart2grid(example, mouseX, mouseY)
    local x, y = map.grid2cart(example, rx, ry)
-   if rx > 0 then       love.graphics.circle("fill", x, y, 5) end
+   if rx > 0 then
+      love.graphics.circle("fill", x, y, 5)
+      love.graphics.setColor(1, 0, 0)
+      rx, ry = map.translated("upccw", rx, ry)
+      x, y = map.grid2cart(example, rx, ry)
+      love.graphics.circle("fill", x, y, 5)
+      love.graphics.setColor(1, 1, 1)
+   end
 end
 
 function game:initCursor()

@@ -6,12 +6,22 @@ local record Map
     size: number --the number of "rings"
   end
 
+  enum Direction
+    "cw"    --clockwise
+    "ccw"   --counter clockwise
+    "down"  --towards center
+    "upcw"  --up and clockwise
+    "upccw" -- up and counterclockwise
+  end
+
   --cartesian to grid coords and vice versa
   cart2grid: function(Level,number,number): (number,number)
   grid2cart: function(Level,number,number): (number,number)
+  translated: function(Direction, number, number): (number,number)
 end
 
 local Level = Map.Level
+local Direction = Map.Direction
 
 local map: Map = {}
 
@@ -70,6 +80,36 @@ function map.grid2cart(l: Level,x: number,y:number): (number,number)
   --theta = theta*(y+0.5)
   local r = l.width*(x+0.5)
   return r*math.cos(theta), r*math.sin(theta)
+end
+
+local function n2ring(x: number, n: number): number
+  local dim = math.pow(2,x+1)
+  if n > 0 then
+    while n > (dim-1) do
+      n = n-dim
+      --print("pos",n)
+    end
+  elseif n < 0 then
+    while n < 0 do
+      n = n+dim
+      --print("neg",n)
+    end
+  end
+  return n
+end
+
+function map.translated(dir: Direction, x: number, y: number): (number,number)
+  if dir == "cw" then
+    return x,n2ring(x,y+1)
+  elseif dir == "ccw" then
+    return x,n2ring(x,y-1)
+  elseif dir == "down" then
+    return x-1,n2ring(x-1,math.floor(y/2))
+  elseif dir == "upcw" then
+    return x+1,n2ring(x+1,2*y+1)
+  else --dir == "upccw"
+    return x+1,n2ring(x+1,2*y)
+  end
 end
 
 return map
