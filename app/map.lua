@@ -20,6 +20,7 @@ local Map = {Level = {}, }
 
 
 
+
 local Level = Map.Level
 local Direction = Map.Direction
 
@@ -74,11 +75,14 @@ function map.cart2grid(l, x, y)
    return 0, 0
 end
 
-function map.grid2cart(l, x, y)
-
-   local theta = (y + 0.5) * math.pi / math.pow(2, x)
-
+function map.grid2polar(l, x, y)
    local r = l.width * (x + 0.5)
+   local theta = (y + 0.5) * math.pi / math.pow(2, x)
+   return r, theta
+end
+
+function map.grid2cart(l, x, y)
+   local r, theta = map.grid2polar(l, x, y)
    return r * math.cos(theta), r * math.sin(theta)
 end
 

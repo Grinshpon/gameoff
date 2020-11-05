@@ -17,6 +17,7 @@ local record Map
   --cartesian to grid coords and vice versa
   cart2grid: function(Level,number,number): (number,number)
   grid2cart: function(Level,number,number): (number,number)
+  grid2polar: function(Level,number,number): (number,number)
   translated: function(Direction, number, number): (number,number)
 end
 
@@ -74,11 +75,14 @@ function map.cart2grid(l: Level,x: number,y:number): (number,number)
   return 0,0
 end
 
-function map.grid2cart(l: Level,x: number,y:number): (number,number)
-  --local theta = math.pi*(y+1)/(4*(x+1))
-  local theta = (y+0.5)*math.pi/math.pow(2,x)
-  --theta = theta*(y+0.5)
+function map.grid2polar(l: Level,x: number,y:number): (number,number)
   local r = l.width*(x+0.5)
+  local theta = (y+0.5)*math.pi/math.pow(2,x)
+  return r,theta
+end
+
+function map.grid2cart(l: Level,x: number,y:number): (number,number)
+  local r,theta = map.grid2polar(l,x,y)
   return r*math.cos(theta), r*math.sin(theta)
 end
 

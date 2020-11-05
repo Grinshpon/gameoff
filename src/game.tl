@@ -46,6 +46,7 @@ function game:setTransform(ttype: TransformType)
 end
 
 local example: map.Level = {width = 60, size = 5}
+local ship = love.graphics.newImage("assets/ship.png") as love.graphics.Drawable
 
 function game:drawLevel()
   local mouseX, mouseY = love.graphics.inverseTransformPoint(love.mouse.getPosition())
@@ -68,10 +69,12 @@ function game:drawLevel()
   local rx,ry = map.cart2grid(example,mouseX,mouseY)
   local x,y = map.grid2cart(example,rx,ry)
   if rx>0 then
-    love.graphics.circle("fill",x,y,5)
-    love.graphics.setColor(1,0,0)
+    --love.graphics.circle("fill",x,y,5)
+    local r,t = map.grid2polar(example,rx,ry)
+    love.graphics.draw(ship,0,0, t+math.pi/2 ,1,1,8,r+8)
     rx,ry = map.translated("upccw",rx,ry)
     x,y = map.grid2cart(example,rx,ry)
+    love.graphics.setColor(1,0,0)
     love.graphics.circle("fill",x,y,5)
     love.graphics.setColor(1,1,1)
   end
